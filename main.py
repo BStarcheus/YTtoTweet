@@ -1,5 +1,6 @@
 import logging
 import json
+import html
 import base64
 from datetime import datetime, timedelta
 from googleapiclient.discovery import build
@@ -72,6 +73,7 @@ def checkYT(event, context):
     for vid in videos:
         try:
             message = "New Upload!\n{0}\nhttps://www.youtube.com/watch?v={1}".format(vid['snippet']['title'][:70], vid['id']['videoId'])
+            message = html.unescape(message)
             status = api.PostUpdate(message)
             print("{0} just posted: {1}".format(status.user.name, status.text))
             status = True
